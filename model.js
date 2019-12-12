@@ -6,7 +6,7 @@ export default class Model {
     };
 
     getAllUsers() {
-         return axios.get("https://api.github.com/users?access_token=0b37f7f96894512da03d8fdc5fb7012fc079a3e6").
+         return axios.get("https://api.github.com/users?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc").
             then(function(response) {
                 return response.data;
             });
@@ -14,21 +14,21 @@ export default class Model {
     };
 
     getUser(username) {
-        return axios.get("https://api.github.com/users/" + username + "?access_token=0b37f7f96894512da03d8fdc5fb7012fc079a3e6")
+        return axios.get("https://api.github.com/users/" + username + "?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
             .then(function (response) {
                 return response.data;
             })
     }
 
     getUserRepositories(username) {
-        return axios.get("https://api.github.com/users/" + username + "/repos" + "?access_token=0b37f7f96894512da03d8fdc5fb7012fc079a3e6")
-            .then(function (response) {
+        return axios.get("https://api.github.com/users/" + username + "/repos?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
+            .then(function (response) { 
                 return response.data;
             })
     }
 
     getUserFollowers(username) {
-        return axios.get("https://api.github.com/users/" + username + "/followers" + "?access_token=0b37f7f96894512da03d8fdc5fb7012fc079a3e6")
+        return axios.get("https://api.github.com/users/" + username + "/followers?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
             .then(function (response) {
                 return response.data;
             })

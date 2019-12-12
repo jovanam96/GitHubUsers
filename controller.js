@@ -8,6 +8,7 @@ class Controller {
 
         this.view.bindSearchUsersButton(this.handleGetAllUsers);
         this.view.bindDetailsButton(this.handleGetUser);
+        this.view.bindLogoImg(this.handleGetAllUsers);
     }
 
     handleGetAllUsers = () => {

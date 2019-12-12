@@ -1,15 +1,38 @@
- export default class View {
+export default class View {
     constructor() {
-        this.app = init();
+        this.app = $("#root");
+
+        this.welcomeContainer = createElement("div", "welcomeContainer");
+        this.usersContainer = createElement("div", "usersContainer");
+        this.userContainer = createElement("div", "userContainer");
+
+        this.logo = createElement("img", "logo");
+        this.logo.src = "./logo.png"
+        this.welcomeContainer.append(this.logo);
+
+        this.header = createElement("h1", "header");
+        this.header.textContent = "GitHub users"
+        this.welcomeContainer.append(this.header);
+
+        this.searchInput = createElement("input", "searchInput");
+        this.searchInput.type = "text";
+        this.searchInput.placeholder = "Search users...";
+        this.welcomeContainer.append(this.searchInput);
 
         this.searchButton = createElement("button", "searchButton");
         this.searchButton.textContent = "Search";
         this.searchButton.id = "searchButton";
-        this.app.append(this.searchButton);
+        this.welcomeContainer.append(this.searchButton);
 
         this.usersList = createElement("ul", "usersList");
-        this.app.append(this.usersList);
 
+        this.app.append(this.welcomeContainer);
+    }
+
+    bindLogoImg(handler) {
+        this.logo.addEventListener("click", function (event) {
+            handler();
+        })
     }
 
     bindSearchUsersButton(handler) {
@@ -27,17 +50,26 @@
     }
 
     populateUsersList(users) {
+        this.welcomeContainer.remove();
+        this.userContainer.remove();
         for (let i = 0; i < users.length; i++) {
             this.usersList.appendChild(createUserCard(users[i]));
         }
+        this.usersContainer.append(this.usersList);
+        this.app.append(this.usersContainer);
     };
 
     populateUser(user) {
-        this.app.empty();
-        this.app = init();
+        this.welcomeContainer.remove();
+        this.usersContainer.remove();
+        this.userContainer.innerHTML = "";
         const userPage = createUserPage(user);
-        this.app.append(userPage);
+        this.userContainer.append(this.searchInput);
+        this.userContainer.append(this.searchButton);
+        this.userContainer.append(userPage);
+        this.app.append(this.userContainer);
     }
+
 }
 
 function createUserCard(user) {
@@ -70,43 +102,39 @@ function createUserPage(user) {
     const username = createElement("h2", "usernameLbl");
     username.textContent = user.login;
 
-    const userContainer = createElement("div", "userContainer");
-
     const repositories = createElement("div", "repositories");
     const repoList = createElement("ul", "repoList");
     user.repositories.forEach(repository => {
-        const repoItem = createElement("li", "repoItem"); 
+        const repoItem = createElement("li", "repoItem");
         const repoCard = createRepoCard(repository);
         repoItem.appendChild(repoCard);
         repoList.appendChild(repoItem);
 
     });
     repositories.appendChild(repoList);
-    
+
 
     const followers = createElement("div", "followers");
     const followersList = createElement("ul", "followersList");
     user.followers.forEach(follower => {
         const followItem = createElement("li", "followItem");
-        const followCard = createUserCard(follower);
-        //followItem.appendChild(document.createTextNode(follower.login));
-        followItem.appendChild(followCard);
+        const followerUsername = createElement("h3", "followerUsername")
+        followerUsername.textContent = follower.login;
+        followItem.appendChild(followerUsername);
         followersList.appendChild(followItem);
     });
     followers.appendChild(followersList);
 
-    userContainer.appendChild(repositories);
-    userContainer.appendChild(followers);
-
     page.appendChild(userImage);
     page.appendChild(username);
-    page.appendChild(userContainer);
+    page.appendChild(repositories);
+    page.append(followers);
 
     return page;
 }
 
 function createRepoCard(repository) {
-    
+
     const repoCard = createElement("div", "repoCard");
 
     const name = createElement("h3", "repoName");
@@ -133,18 +161,4 @@ function createElement(tag, className) {
     const element = document.createElement(tag);
     element.className = className;
     return element;
-}
-
-function init() {
-    const app = $("#root");
-
-    const logo = createElement("img", "logo");
-    logo.src = "./logo.png"
-    app.append(logo);
-
-    const header = createElement("h1", "header");
-    header.textContent = "GitHub users"
-    app.append(header);
-
-    return app;
 }
