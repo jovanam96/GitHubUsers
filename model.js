@@ -6,29 +6,29 @@ export default class Model {
     };
 
     getAllUsers() {
-         return axios.get("https://api.github.com/users?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc").
+         return axios.get("https://api.github.com/search/users" + "?q=users").
             then(function(response) {
-                return response.data;
+                return response.data.items;
             });
 
     };
 
     getUser(username) {
-        return axios.get("https://api.github.com/users/" + username + "?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
+        return axios.get("https://api.github.com/users/" + username)
             .then(function (response) {
                 return response.data;
             })
     }
 
     getUserRepositories(username) {
-        return axios.get("https://api.github.com/users/" + username + "/repos?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
+        return axios.get("https://api.github.com/users/" + username + "/repos")
             .then(function (response) { 
                 return response.data;
             })
     }
 
     getUserFollowers(username) {
-        return axios.get("https://api.github.com/users/" + username + "/followers?access_token=5f17235e5280d8d2f878ee9703ec718a946fecfc")
+        return axios.get("https://api.github.com/users/" + username + "/followers")
             .then(function (response) {
                 return response.data;
             })

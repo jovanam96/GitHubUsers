@@ -14,6 +14,10 @@ export default class View {
         this.header.textContent = "GitHub users"
         this.welcomeContainer.append(this.header);
 
+        this.description = createElement("p", "welcomeDescription");
+        this.description.textContent = "Welcome to single-page MVC application for displaying GitHub users!";
+        this.welcomeContainer.append(this.description);
+
         this.searchInput = createElement("input", "searchInput");
         this.searchInput.type = "text";
         this.searchInput.placeholder = "Search users...";
@@ -31,13 +35,15 @@ export default class View {
 
     bindLogoImg(handler) {
         this.logo.addEventListener("click", function (event) {
+            event.target.parentElement.querySelector(".searchInput").value = "";
             handler();
         })
     }
 
     bindSearchUsersButton(handler) {
         this.searchButton.addEventListener("click", function (event) {
-            handler();
+            const username = event.target.parentElement.querySelector(".searchInput").value;
+            handler(username);
         })
     }
 
@@ -52,9 +58,19 @@ export default class View {
     populateUsersList(users) {
         this.welcomeContainer.remove();
         this.userContainer.remove();
+        this.usersList.innerHTML = "";
+        this.usersContainer.innerHTML = "";
         for (let i = 0; i < users.length; i++) {
             this.usersList.appendChild(createUserCard(users[i]));
         }
+        this.usersContainer.append(this.logo);
+        this.usersContainer.append(this.searchInput);
+        this.usersContainer.append(this.searchButton);
+
+        const usersTitle = createElement("h1", "usersTitle");
+        usersTitle.textContent = "GitHub users";
+        this.usersContainer.append(usersTitle);
+
         this.usersContainer.append(this.usersList);
         this.app.append(this.usersContainer);
     };
@@ -64,6 +80,7 @@ export default class View {
         this.usersContainer.remove();
         this.userContainer.innerHTML = "";
         const userPage = createUserPage(user);
+        this.userContainer.append(this.logo);
         this.userContainer.append(this.searchInput);
         this.userContainer.append(this.searchButton);
         this.userContainer.append(userPage);
@@ -83,11 +100,15 @@ function createUserCard(user) {
     const username = createElement("h2", "username");
     username.textContent = user.login;
 
+    const score = createElement("p", "score");
+    score.textContent = "Score: " + user.score;
+
     const detailsButton = createElement("button", "detailsButton");
     detailsButton.textContent = "Details";
 
     card.appendChild(userImage);
     card.appendChild(username);
+    card.appendChild(score);
     card.appendChild(detailsButton);
 
     return card;
@@ -99,8 +120,16 @@ function createUserPage(user) {
     const userImage = createElement("img", "userImage");
     userImage.src = user.avatar_url;
 
+    const userInfo = createElement("div", "profileInfo");
+
+    const profileTitle = createElement("h1", "profileTitle");
+    profileTitle.textContent = "User profile";
+
     const username = createElement("h2", "usernameLbl");
-    username.textContent = user.login;
+    username.textContent = "Username: " + user.login;
+
+    userInfo.appendChild(profileTitle);
+    userInfo.appendChild(username);
 
     const repositories = createElement("div", "repositories");
     const repoList = createElement("ul", "repoList");
@@ -111,6 +140,9 @@ function createUserPage(user) {
         repoList.appendChild(repoItem);
 
     });
+    const repoHeader = createElement("h2", "repoHeader");
+    repoHeader.textContent = "Repositories";
+    repositories.appendChild(repoHeader);
     repositories.appendChild(repoList);
 
 
@@ -123,10 +155,13 @@ function createUserPage(user) {
         followItem.appendChild(followerUsername);
         followersList.appendChild(followItem);
     });
+    const followHeader = createElement("h2", "followHeader");
+    followHeader.textContent = "Followers";
+    followers.appendChild(followHeader);
     followers.appendChild(followersList);
 
     page.appendChild(userImage);
-    page.appendChild(username);
+    page.appendChild(userInfo);
     page.appendChild(repositories);
     page.append(followers);
 
@@ -144,7 +179,7 @@ function createRepoCard(repository) {
     description.textContent = repository.description;
 
     const language = createElement("p", "repoLanguage");
-    language.textContent = repository.language;
+    language.textContent = "Language: " + repository.language;
 
     const updatedAt = createElement("p", "repoUpdated");
     updatedAt.textContent = "Updated at: " + repository.updated_at;
