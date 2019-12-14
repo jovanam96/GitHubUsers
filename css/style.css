@@ -19,16 +19,10 @@ body {
   .welcomeContainer {
     text-align: center;
     justify-content: center;
-    padding-top: 200px;
+    padding-top: 100px;
   }
 
-  @media  (max-width:367px) {
-    .welcomeContainer {
-        text-align: center;
-        justify-content: center;
-        padding-top: 500px;
-    }
-  }
+
 
 .welcomeDescription {
   padding: 20px;
@@ -41,8 +35,8 @@ body {
 }
 
 .usersContainer .logo, .userContainer .logo {
-  height: 7%;
-  width: 7%;
+  height: 5%;
+  width: 5%;
   padding: 30px;
 }
 
@@ -144,7 +138,6 @@ body {
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    font-family:Arial;
     font-size:12px;
     font-weight:bold;
     padding:13px 32px;
@@ -172,4 +165,58 @@ body {
     text-align: center;
     margin: 2%;
     font-size: 30px;
+  }
+
+  @media screen and (max-width:667px) {
+    .detailsButton {
+       text-align: center;
+       padding: 10px 16px;
+    }
+
+    .card {
+      height: 50%;
+      width: 37%;
+    }
+
+    .username {
+      font-size: 20px;
+    }
+
+    .searchInput, .searchButton {
+      width: 80%;
+      margin-left: 10%;
+    }
+
+    .usersContainer .logo, .userContainer .logo {
+      height: 10%;
+      width: 10%;
+      padding: 30px;
+    }
+
+    .userPage  {
+      padding-top: 5%;
+    }
+
+    .userPage .userImage {
+      width: 30%;
+      height: 30%;
+    }
+
+    .userPage .followers {
+      font-size: 15px;
+    }
+
+    .followers, .repositories {
+      width: 90%;
+      margin-left: 5%;
+      margin-bottom: 5%;
+    }
+
+    .followHeader, .repoHeader {
+      font-size: 20px;
+    }
+
+    .profileInfo {
+      font-size: 12px;
+    }
   }
