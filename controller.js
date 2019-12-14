@@ -7,28 +7,25 @@ class Controller {
         this.model = model;
 
         this.view.bindSearchUsersButton(this.handleSearchUsers);
+        this.view.bindSearchUsersInput(this.handleSearchUsers);
         this.view.bindDetailsButton(this.handleGetUser);
         this.view.bindLogoImg(this.handleGetAllUsers);
     }
 
     handleGetAllUsers = () => {
         this.model.getAllUsers()
-            .then( data => this.view.populateUsersList(data));
+            .then(data => this.view.populateUsersList(data));
 
     }
 
     handleSearchUsers = (username) => {
-        this.model.getAllUsers()
-            .then( data => {
-                const users = [];
-                data.forEach(user => {
-                    if(user.login.startsWith(username)) {
-                        users.push(user);
-                    }
-                });
-                this.view.populateUsersList(users)
-            });
-
+        if (username.trim()) {
+            this.model.searchUsers(username)
+                .then(data => this.view.populateUsersList(data));
+        } else {
+            this.model.getAllUsers()
+                .then(data => this.view.populateUsersList(data));
+        }
     }
 
     handleGetUser = (username) => {
@@ -44,8 +41,9 @@ class Controller {
                             });
                     });
             });
-        
+
     };
+
 }
 
 const app = new Controller(new View(), new Model());

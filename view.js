@@ -1,6 +1,6 @@
 export default class View {
     constructor() {
-        this.app = $("#root");
+        this.app = document.getElementById("root");
 
         this.welcomeContainer = createElement("div", "welcomeContainer");
         this.usersContainer = createElement("div", "usersContainer");
@@ -37,22 +37,32 @@ export default class View {
         this.logo.addEventListener("click", function (event) {
             event.target.parentElement.querySelector(".searchInput").value = "";
             handler();
-        })
+        });
     }
 
     bindSearchUsersButton(handler) {
         this.searchButton.addEventListener("click", function (event) {
             const username = event.target.parentElement.querySelector(".searchInput").value;
             handler(username);
-        })
+        });
     }
+
+    bindSearchUsersInput(handler) {
+        this.searchInput.addEventListener("keyup", function (event) {
+            if (event.witch === 13 || event.keyCode === 13) {
+                const username = event.target.parentElement.querySelector(".searchInput").value;
+                handler(username);
+            }
+        });
+    }
+
 
     bindDetailsButton(handler) {
         this.usersList.addEventListener("click", function (event) {
             if (event.target.className === "detailsButton") {
                 handler(event.target.parentElement.username);
             }
-        })
+        });
     }
 
     populateUsersList(users) {

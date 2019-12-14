@@ -6,7 +6,7 @@ export default class Model {
     };
 
     getAllUsers() {
-         return axios.get("https://api.github.com/search/users" + "?q=users").
+         return axios.get("https://api.github.com/search/users?q=users&acces_token=aa79294a27010f1d41df01111e6ebce6c0a3b84f").
             then(function(response) {
                 return response.data.items;
             });
@@ -14,7 +14,7 @@ export default class Model {
     };
 
     getUser(username) {
-        return axios.get("https://api.github.com/users/" + username)
+        return axios.get("https://api.github.com/users/" + username )
             .then(function (response) {
                 return response.data;
             })
@@ -31,6 +31,13 @@ export default class Model {
         return axios.get("https://api.github.com/users/" + username + "/followers")
             .then(function (response) {
                 return response.data;
+            })
+    }
+
+    searchUsers(username) {
+        return axios.get("https://api.github.com/search/users?q=" + username)
+            .then(function (response) {
+                return response.data.items;
             })
     }
 }
