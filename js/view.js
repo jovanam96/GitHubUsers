@@ -7,7 +7,7 @@ export default class View {
         this.userContainer = createElement("div", "userContainer");
 
         this.logo = createElement("img", "logo");
-        this.logo.src = "./logo.png"
+        this.logo.src = "./resources/logo.png"
         this.welcomeContainer.append(this.logo);
 
         this.header = createElement("h1", "header");
