@@ -29,6 +29,7 @@ export default class View {
         this.welcomeContainer.append(this.searchButton);
 
         this.usersList = createElement("ul", "usersList");
+        this.userPage = createElement("div", "userPage");
 
         this.app.append(this.welcomeContainer);
     }
@@ -65,6 +66,14 @@ export default class View {
         });
     }
 
+    bindDetailsButtonFollowersList(handler) {
+        this.userPage.addEventListener("click", function (event) {
+            if (event.target.className === "detailsButton") {
+                handler(event.target.parentElement.username);
+            }
+        });
+    }
+
     populateUsersList(users) {
         this.welcomeContainer.remove();
         this.userContainer.remove();
@@ -89,11 +98,12 @@ export default class View {
         this.welcomeContainer.remove();
         this.usersContainer.remove();
         this.userContainer.innerHTML = "";
-        const userPage = createUserPage(user);
+        this.userPage.innerHTML = "";
+        this.userPage.append(createUserPage(user));
         this.userContainer.append(this.logo);
         this.userContainer.append(this.searchInput);
         this.userContainer.append(this.searchButton);
-        this.userContainer.append(userPage);
+        this.userContainer.append(this.userPage);
         this.app.append(this.userContainer);
     }
 
@@ -125,7 +135,7 @@ function createUserCard(user) {
 }
 
 function createUserPage(user) {
-    const page = createElement("div", "userPage");
+    const page = createElement("div", "page");
 
     const userImage = createElement("img", "userImage");
     userImage.src = user.avatar_url;
@@ -160,9 +170,14 @@ function createUserPage(user) {
     const followersList = createElement("ul", "followersList");
     user.followers.forEach(follower => {
         const followItem = createElement("li", "followItem");
+        /*
         const followerUsername = createElement("h3", "followerUsername")
         followerUsername.textContent = follower.login;
         followItem.appendChild(followerUsername);
+        */
+        const followerCard = createUserCard(follower);
+        followerCard.querySelector("p").remove();
+        followItem.appendChild(followerCard);
         followersList.appendChild(followItem);
     });
     const followHeader = createElement("h2", "followHeader");

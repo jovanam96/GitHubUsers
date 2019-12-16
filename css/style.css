@@ -66,13 +66,13 @@ body {
       width: 30%;   
   }
 
-  .userPage {
+  .userPage .page{
     display: flex;
     flex-wrap: wrap;
     position: absolute;
   }
 
-  .userPage .userImage {
+  .userPage .page .userImage {
       border-radius: 5%;
       border-style: inherit;
       height: 20%;
@@ -90,6 +90,7 @@ body {
     width: 55%;
     margin-right: 5%;
     margin-left: 5%;
+    margin-bottom: 2%;
   }
 
   .repoList {
@@ -114,15 +115,20 @@ body {
     border-radius:5px;
     border:1px solid #566963;
     width: 30%;
+    margin-bottom: 2%;
   }
 
   .followersList {
-    list-style-type: square;
     margin: 15px;
   }
 
   .followItem {
-    padding: 5%;
+    margin-left: 8%;
+  }
+
+  .followItem .card {
+    height: 50%;
+    width: 80%;
   }
 
   ul {
@@ -197,7 +203,7 @@ body {
       padding-top: 5%;
     }
 
-    .userPage .userImage {
+    .userPage .page .userImage {
       width: 30%;
       height: 30%;
     }

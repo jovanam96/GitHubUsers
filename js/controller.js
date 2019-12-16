@@ -10,6 +10,7 @@ class Controller {
         this.view.bindSearchUsersInput(this.handleSearchUsers);
         this.view.bindDetailsButton(this.handleGetUser);
         this.view.bindLogoImg(this.handleGetAllUsers);
+        this.view.bindDetailsButtonFollowersList(this.handleGetUser);
     }
 
     handleGetAllUsers = () => {
