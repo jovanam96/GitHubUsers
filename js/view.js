@@ -6,6 +6,10 @@ export default class View {
         this.usersContainer = createElement("div", "usersContainer");
         this.userContainer = createElement("div", "userContainer");
 
+        this.welcomeContainer.setAttribute("onload", "stopSpinner()");
+        this.usersContainer.setAttribute("onload", "stopAttribute()");
+        this.userContainer.setAttribute("onload", "stopSpinner()");
+
         this.logo = createElement("img", "logo");
         this.logo.src = "./resources/logo.png"
         this.welcomeContainer.append(this.logo);
@@ -28,9 +32,12 @@ export default class View {
         this.searchButton.id = "searchButton";
         this.welcomeContainer.append(this.searchButton);
 
-        this.usersList = createElement("ul", "usersList");
+        this.usersList = createElement("div", "usersList");
         this.userPage = createElement("div", "userPage");
 
+        this.spinner = createElement("div", "spinner");
+        this.spinner.style.visibility = "hidden";
+        //this.app.append(this.spinner);
         this.app.append(this.welcomeContainer);
     }
 
@@ -44,8 +51,9 @@ export default class View {
     bindSearchUsersButton(handler) {
         this.searchButton.addEventListener("click", function (event) {
             const username = event.target.parentElement.querySelector(".searchInput").value;
-            handler(username);
+            handler(username, event.target);
         });
+        
     }
 
     bindSearchUsersInput(handler) {
@@ -61,15 +69,18 @@ export default class View {
     bindDetailsButton(handler) {
         this.usersList.addEventListener("click", function (event) {
             if (event.target.className === "detailsButton") {
-                handler(event.target.parentElement.username);
+                const button = event.target;
+                handler(event.target.parentElement.username, button);
             }
         });
+        
     }
 
     bindDetailsButtonFollowersList(handler) {
         this.userPage.addEventListener("click", function (event) {
             if (event.target.className === "detailsButton") {
-                handler(event.target.parentElement.username);
+                const button = event.target;
+                handler(event.target.parentElement.username, button);
             }
         });
     }
@@ -95,6 +106,7 @@ export default class View {
     };
 
     populateUser(user) {
+
         this.welcomeContainer.remove();
         this.usersContainer.remove();
         this.userContainer.innerHTML = "";
@@ -105,6 +117,19 @@ export default class View {
         this.userContainer.append(this.searchButton);
         this.userContainer.append(this.userPage);
         this.app.append(this.userContainer);
+    }
+
+    showSpinner(button) {
+        button.textContent = "";
+        button.append(this.spinner);
+        this.spinner.style.visibility = "visible";
+
+    }
+
+    hideSpinner(button) {
+        button.append(this.spinner);
+        this.spinner.style.visibility = "hidden";
+        button.textContent = "Details";
     }
 
 }
@@ -152,39 +177,29 @@ function createUserPage(user) {
     userInfo.appendChild(username);
 
     const repositories = createElement("div", "repositories");
-    const repoList = createElement("ul", "repoList");
+
+    const repoHeader = createElement("h2", "repoHeader");
+    repoHeader.textContent = "Repositories: " + user.repositories.length;
+    repositories.appendChild(repoHeader);
+
     user.repositories.forEach(repository => {
-        const repoItem = createElement("li", "repoItem");
         const repoCard = createRepoCard(repository);
-        repoItem.appendChild(repoCard);
-        repoList.appendChild(repoItem);
+        repositories.appendChild(repoCard);
 
     });
-    const repoHeader = createElement("h2", "repoHeader");
-    repoHeader.textContent = "Repositories";
-    repositories.appendChild(repoHeader);
-    repositories.appendChild(repoList);
-
 
     const followers = createElement("div", "followers");
-    const followersList = createElement("ul", "followersList");
+
+    const followHeader = createElement("h2", "followHeader");
+    followHeader.textContent = "Followers: " + user.followers.length;
+    followers.appendChild(followHeader);
+
     user.followers.forEach(follower => {
-        const followItem = createElement("li", "followItem");
-        /*
-        const followerUsername = createElement("h3", "followerUsername")
-        followerUsername.textContent = follower.login;
-        followItem.appendChild(followerUsername);
-        */
         const followerCard = createUserCard(follower);
         followerCard.querySelector("p").remove();
-        followItem.appendChild(followerCard);
-        followersList.appendChild(followItem);
+        followers.appendChild(followerCard);
     });
-    const followHeader = createElement("h2", "followHeader");
-    followHeader.textContent = "Followers";
-    followers.appendChild(followHeader);
-    followers.appendChild(followersList);
-
+    
     page.appendChild(userImage);
     page.appendChild(userInfo);
     page.appendChild(repositories);

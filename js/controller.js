@@ -15,21 +15,31 @@ class Controller {
 
     handleGetAllUsers = () => {
         this.model.getAllUsers()
-            .then(data => this.view.populateUsersList(data));
+            .then(data => {
+                this.view.populateUsersList(data);
+            });
 
     }
 
-    handleSearchUsers = (username) => {
+    handleSearchUsers = (username, button) => {
+        this.view.showSpinner(button);
         if (username.trim()) {
             this.model.searchUsers(username)
-                .then(data => this.view.populateUsersList(data));
+                .then(data => {
+                    this.view.populateUsersList(data);
+                    this.view.hideSpinner(button);
+                });
         } else {
             this.model.getAllUsers()
-                .then(data => this.view.populateUsersList(data));
+                .then(data => {
+                    this.view.populateUsersList(data);
+                    this.view.hideSpinner(button);
+                });
         }
     }
 
-    handleGetUser = (username) => {
+    handleGetUser = (username, button) => {
+        this.view.showSpinner(button);
         this.model.getUser(username)
             .then(user => {
                 this.model.getUserRepositories(username)
@@ -39,12 +49,13 @@ class Controller {
                             .then(followers => {
                                 user.followers = followers;
                                 this.view.populateUser(user);
+                                this.view.hideSpinner(button);
                             });
                     });
             });
-
     };
 
 }
 
 const app = new Controller(new View(), new Model());
+

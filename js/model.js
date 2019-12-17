@@ -14,28 +14,28 @@ export default class Model {
     };
 
     getUser(username) {
-        return axios.get("https://api.github.com/users/" + username )
+        return axios.get("https://api.github.com/users/" + username + "?access_token=ee9587b485f6ca334cc3f314e9202be559396ec2;")
             .then(function (response) {
                 return response.data;
             })
     }
 
     getUserRepositories(username) {
-        return axios.get("https://api.github.com/users/" + username + "/repos")
+        return axios.get("https://api.github.com/users/" + username + "/repos"  + "?access_token=ee9587b485f6ca334cc3f314e9202be559396ec2;")
             .then(function (response) { 
                 return response.data;
             })
     }
 
     getUserFollowers(username) {
-        return axios.get("https://api.github.com/users/" + username + "/followers")
+        return axios.get("https://api.github.com/users/" + username + "/followers"  + "?access_token=ee9587b485f6ca334cc3f314e9202be559396ec2;")
             .then(function (response) {
                 return response.data;
             })
     }
 
     searchUsers(username) {
-        return axios.get("https://api.github.com/search/users?q=" + username)
+        return axios.get("https://api.github.com/search/users?q=" + username  + "&access_token=ee9587b485f6ca334cc3f314e9202be559396ec2;")
             .then(function (response) {
                 return response.data.items;
             })
