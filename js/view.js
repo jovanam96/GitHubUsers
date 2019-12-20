@@ -126,10 +126,10 @@ export default class View {
 
     }
 
-    hideSpinner(button) {
+    hideSpinner(button, textContent) {
         button.append(this.spinner);
         this.spinner.style.visibility = "hidden";
-        button.textContent = "Details";
+        button.textContent = textContent;
     }
 
 }

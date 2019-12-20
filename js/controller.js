@@ -27,13 +27,13 @@ class Controller {
             this.model.searchUsers(username)
                 .then(data => {
                     this.view.populateUsersList(data);
-                    this.view.hideSpinner(button);
+                    this.view.hideSpinner(button, "Search");
                 });
         } else {
             this.model.getAllUsers()
                 .then(data => {
                     this.view.populateUsersList(data);
-                    this.view.hideSpinner(button);
+                    this.view.hideSpinner(button, "Search");
                 });
         }
     }
@@ -49,7 +49,7 @@ class Controller {
                             .then(followers => {
                                 user.followers = followers;
                                 this.view.populateUser(user);
-                                this.view.hideSpinner(button);
+                                this.view.hideSpinner(button, "Details");
                             });
                     });
             });
